@@ -1,3 +1,588 @@
+<style>
+  .kk td {
+    height: 86px !important;
+  }
+</style>
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">Kronario</a>
+      <form class="d-flex input-group w-auto">
+        <input type="search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" />
+        <span class="input-group-text border-0" id="search-addon">
+          <ion-icon name="search"></ion-icon>
+        </span>
+      </form>
+    </div>
+  </nav>
+  <as-split *ngIf="config" direction="horizontal" [disabled]="config.disabled" (dragEnd)="onDragEnd(-1, $event)">
+    <ng-template ngFor let-column [ngForOf]="config.columns" let-icol="index">
+      <as-split-area *ngIf="column.visible" [order]="icol" [size]="column.size" [minSize]="column.minSize!">
+        <as-split direction="vertical" [disabled]="config.disabled" (dragEnd)="onDragEnd(icol, $event)">
+          <ng-template ngFor let-row [ngForOf]="column.rows" let-irow="index">
+            <as-split-area *ngIf="row.visible" [order]="irow" [size]="row.size" [minSize]="row.minSize!">
+              <div [ngSwitch]="row.type" class="bloc">
+                <div *ngSwitchCase="'doc'" class="explanations">
+                  <div class="flex flex-col">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-x-auto">
+                          <div class="d-flex">
+                            <ion-title>Horario</ion-title>
+                            <ion-buttons>
+                              <ion-button style="margin: auto;">
+                                <ion-icon name="lock-closed-outline"></ion-icon>
+                              </ion-button>
+                              <ion-button>
+                                <ion-icon name="lock-open-outline"></ion-icon>
+                              </ion-button>
+                            </ion-buttons>
+                            <ion-buttons style="margin-left: 20px;">
+                              <ion-button>
+                                <ion-icon name="arrow-back-outline"></ion-icon>
+                              </ion-button>
+                              <ion-text>
+                                0
+                              </ion-text>
+
+                              <ion-button>
+                                <ion-icon name="arrow-forward-outline"></ion-icon>
+                              </ion-button>
+                            </ion-buttons>
+                          </div>
+                          <table class="min-w-full">
+                            <thead class="border-b kk">
+                              <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Horas
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Lunes
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Martes
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Miercoles
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Jueves
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                  Viernes
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">6:30 - 7:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Matemáticas</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Matemáticas</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Matemáticas</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">7:30 - 8:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Matemáticas</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">E. Datos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">E. Datos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Matemáticas</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">8:30 - 9:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">E. Datos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">E. Datos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">9:30 - 10:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">P. Objetos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">P. Objetos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">10:30 - 11:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">P. Objetos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">P. Objetos</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">11:30 - 12:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">12:30 - 13:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">13:30 - 14:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Competencias I</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">A. Lineal</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">14:30 - 15:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Competencias I</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Competencias I</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">15:30 - 16:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">Competencias I</div>
+                                  <div class="text-xs text-gray-900" style="font-weight: bold;">Bloque X</div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">16:30 - 17:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">16:30 - 17:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">17:30 - 18:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">18:30 - 19:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                              <tr class="border-b">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">19:30 - 20:30</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900"></div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--
+                  <ng-template ngFor let-c [ngForOf]="config.columns">
+                    <ng-template ngFor let-r [ngForOf]="c.rows">
+                      <button *ngIf="r.type !== 'doc'" (click)="r.visible = !r.visible; refreshColumnVisibility()"
+                        [class.active]="!r.visible" class="btn btn-warning">
+                        {{ r.type }}
+                      </button>
+                    </ng-template>
+                  </ng-template>
+                  <br />
+                  <button class="btn btn-warning" [class.active]="!config.disabled" (click)="toggleDisabled()">
+                    {{ 'isDisabled: ' + config.disabled }}
+                  </button>
+                  <br />
+                  <button (click)="resetConfig()" class="btn btn-warning">Reset localStorage</button>
+                -->
+                </div>
+                <div *ngSwitchCase="'D'" class="explanations ion-text-center">
+                  <app-pic [src]="'pic'"></app-pic>
+                  <ion-text class="ion-padding-horizontal">
+                    Nombre del profesor
+                  </ion-text>
+                  <br />
+                  <ion-text class="ion-padding-horizontal">
+                    Ocupación
+                  </ion-text>
+                  <ion-list>
+                    <ion-item>
+                      <ion-icon name="school-outline" slot="start"></ion-icon>
+                      <ion-label>Doctorado:</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="arrow-forward-outline" slot="start"></ion-icon><ion-label>Doctorado 1</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="school-outline" slot="start"></ion-icon>
+                      <ion-label>Maestrías:</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="arrow-forward-outline" slot="start"></ion-icon>
+                      <ion-label>Maestría 1</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="arrow-forward-outline" slot="start"></ion-icon>
+                      <ion-label>Maestría 2</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+                      <ion-label>Certificados:</ion-label>
+                    </ion-item>
+                    <ion-item>
+                      <ion-icon name="arrow-forward-outline" slot="start"></ion-icon><ion-label>Certificado
+                        1</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-icon name="arrow-forward-outline" slot="start"></ion-icon>
+                      <ion-label>Certificado 2</ion-label>
+                    </ion-item>
+
+                  </ion-list>
+                </div>
+                <div *ngSwitchCase="'E'">
+                  <div class="explanations ion-text-center">
+                    <div class="flex flex-col">
+                      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                          <div class="overflow-x-auto">
+                            <table class="min-w-full text-left">
+                              <thead class="border-b">
+                                <tr>
+                                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 ">
+                                    Materias
+                                  </th>
+                                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4">
+                                    Nrcs
+                                  </th>
+                                  <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 ">
+                                    Profesor/es
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="border-b">
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Matemáticas</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">12345</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Profesor 1</div>
+                                  </td>
+                                </tr>
+                                <tr class="border-b">
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">E. Datos</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">12385</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Profesor 2</div>
+                                  </td>
+                                </tr>
+                                <tr class="border-b">
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">P. Objetos</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">14345</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Profesor 3</div>
+                                  </td>
+                                </tr>
+                                <tr class="border-b">
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">A. Lineal</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">18845</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Profesor 4</div>
+                                  </td>
+                                </tr>
+                                <tr class="border-b">
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Competencias I</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">12399</div>
+                                  </td>
+                                  <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Profesor 5</div>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngSwitchCase="'A'">
+                  <nav class="navbar navbar-light bg-light">
+                    <div class="container-fluid">
+                      <ion-text>
+                        <h5>Asignaturas</h5>
+                      </ion-text>
+                      <form class="d-flex input-group w-auto">
+                        <div class="rox flex flex-col ion-text-center"
+                          style="margin: 0px; font-size: 0.7rem; font-weight: bold;">
+                          <ion-text>
+                            <p>0/13</p>
+                          </ion-text>
+                          <ion-text>
+                            <p>Creditos</p>
+                          </ion-text>
+                        </div>
+                      </form>
+                    </div>
+                  </nav>
+                  <app-tree></app-tree>
+                </div>
+              </div>
+            </as-split-area>
+          </ng-template>
+        </as-split>
+      </as-split-area>
+    </ng-template>
+  </as-split>
 </ion-app>
