@@ -1,3 +1,17 @@
-<p>
-  tree works!
-</p>
+<kendo-treeview [nodes]="combinaciones" textField="text" kendoTreeViewHierarchyBinding childrenField="items"
+  kendoTreeViewExpandable expandBy="id" [expandedKeys]="[1]" kendoTreeViewDragAndDrop kendoTreeViewDragAndDropEditing
+  (nodeDragStart)="log('nodeDragStart', $event)" (nodeDrag)="log('nodeDrag', $event)" (nodeDrop)="handleDrop($event)"
+  (addItem)="log('addItem', $event)" (removeItem)="log('removeItem', $event)"
+  (nodeDragEnd)="log('nodeDragEnd', $event)">
+  <ng-template kendoTreeViewNodeTemplate let-dataItem>
+    <span [ngClass]="iconClass(dataItem)"></span>
+    {{ dataItem.text }}
+  </ng-template>
+  <ng-template kendoTreeViewDragClueTemplate let-action="action" let-destinationItem="destinationItem" let-text="text"
+    let-sourceItem="sourceItem">
+    <span class="k-drag-status k-icon" [ngClass]="getDragStatus(action, destinationItem, sourceItem)"></span>
+
+    <span>
+      {{ text }}</span>
+  </ng-template>
+</kendo-treeview>

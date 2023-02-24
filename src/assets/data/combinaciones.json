@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "text": "carpeta personalizada",
+    "type": "folder",
+    "items": [
+      {
+        "id": 2,
+        "text": "curso 1",
+        "type": "course",
+        "items": [
+          { "id": 3, "text": "porfesor 1", "type": "teacher" },
+          { "id": 4, "text": "porfesor 2", "type": "teacher" }
+        ]
+      },
+      {
+        "id": 5,
+        "text": "curso 2",
+        "type": "course",
+        "items": [
+          { "id": 6, "text": "porfesor 3", "type": "teacher" },
+          { "id": 7, "text": "porfesor 4", "type": "teacher" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "curso 3",
+    "type": "course",
+    "items": [
+      { "id": 9, "text": "porfesor 5", "type": "teacher" },
+      { "id": 10, "text": "porfesor 6", "type": "teacher" },
+      { "id": 11, "text": "porfesor 7", "type": "teacher" },
+      { "id": 12, "text": "porfesor 8", "type": "teacher" }
+    ]
+  },
+  {
+    "id": 13,
+    "text": "carpeta nueva",
+    "type": "folder",
+    "items": [
+      {
+        "id": 14,
+        "text": "curso 4",
+        "type": "course",
+        "items": [
+          { "id": 15, "text": "porfesor 9", "type": "teacher" },
+          { "id": 16, "text": "porfesor 10", "type": "teacher" }
+        ]
+      }
+    ]
+  }
+]
